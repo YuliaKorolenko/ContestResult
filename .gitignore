@@ -1,0 +1,10 @@
+.env
+.env.local
+config.local.py
+local_config.py
+bdist*.json
+bcdist.json
+cron.log
+__pycache__/
+*.pyc
+__pycache__
