@@ -10,8 +10,8 @@ class ContestInfo:
 
 class CodeforcesServer:
     def __init__(self):
-        api_key = "d5b2267edde060861100e73b285fc450877b7622"
-        secret = "e8d1310eca7dc3c7934614de655f49673dc14846" 
+        api_key = ''
+        secret = ''
         self.cf = codeforces_api.CodeforcesApi(api_key=api_key, secret=secret)
 
     def generate_contest_info(self, contest_id : int, niknames : List[str]):

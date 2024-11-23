@@ -4,8 +4,8 @@ import time
 
 contests_ids = [557376, 559375, 561279, 563232, 566926, 568555]
 
-table_link = ...
-table_id = ...
+table_link = ''
+table_id = ''
 worksheet_name = "Контесты2"
 
 if __name__ == "__main__":
