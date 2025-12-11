@@ -33,7 +33,7 @@ if __name__ == "__main__":
         map[child[2]] = i
         i += 1
 
-    # update_children_info(worksheet=worksheet, header=header, children=children)
+    update_children_info(worksheet=worksheet, header=header, children=children)
 
     start = len(header[0]) + 1  # First contest starts at column E (5)
     # Track all contest Σ columns (each contest has its Σ column at start_col)
