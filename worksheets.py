@@ -181,8 +181,29 @@ def update_children_info(worksheet: Worksheet, header, children):
 
     add_borders_to_range(worksheet, start_row=0, end_row=1, start_column=0, end_column=header_size)
     add_borders_to_range(worksheet, start_row=1, end_row=children_count + 2, start_column=0, end_column=header_size)
+    
+    # Calculate max length for each column and set width accordingly
+    # Include header row in calculation
+    header_row = header[0]
+    
+    # Find max length in each column
+    max_lengths = []
+    for col_idx in range(header_size):
+        max_len = 0
+        
+        for child in children:
+            if col_idx < len(child):
+                cell_value = str(child[col_idx])
+                max_len = max(max_len, len(cell_value))
+        
+        max_lengths.append(max_len)
+    
+
+    for col_idx in range(header_size):
+        calculated_width = max(100, min(400, max_lengths[col_idx] * 8))
+        set_column_width(worksheet, col_idx, col_idx + 1, calculated_width)
+
     set_column_width(worksheet, 0, 1, 220)
-    set_column_width(worksheet, 1, 2, 150)
 
 
 def insert_sum_formula(worksheet, target_col, end_col, start_row, end_row):
@@ -249,7 +270,8 @@ def insert_main_sum_column(worksheet, sum_col, contest_sum_columns, start_row, e
         column_letter=sum_col_letter,
         start_row=start_row,
         end_row=end_row,
-        mid_value=mid_value
+        mid_value=mid_value,
+        is_rgb=False
     )
 
 
@@ -273,7 +295,7 @@ def apply_gradient(worksheet, column_letter, end_column, start_row, end_row):
     rules.save()
 
 
-def apply_gradient_formatting(worksheet, column_letter, start_row, end_row, mid_value):
+def apply_gradient_formatting(worksheet, column_letter, start_row, end_row, mid_value, is_rgb = True):
     """
     Применяет условное форматирование с градиентом для указанной колонки.
 
@@ -284,10 +306,14 @@ def apply_gradient_formatting(worksheet, column_letter, start_row, end_row, mid_
     """
     # Диапазон форматирования
     range_address = f"{column_letter}{start_row}:{column_letter}{end_row}"
-
-    max_color = Color(87 / 256, 187 / 256, 138 / 256)  # Зеленый цвет
-    min_color = Color(230 / 256, 124 / 256, 115 / 256) # Красный цвет
+   
+    max_color = Color(87 / 256, 187 / 256, 138 / 256)  # Green color
+    min_color = Color(230 / 256, 124 / 256, 115 / 256) # Red color
     mid_color = Color(255 / 256, 214 / 256, 102 / 256)
+    if not is_rgb:
+        max_color = Color(87/256, 187/256, 138/256)   # Green (#57BB8A)
+        min_color = Color(255/256, 255/256, 255/256)  # White
+        mid_color = Color(171/256, 221/256, 196/256)  # Light green midpoint (#ABDDC4)
 
     # Правило цветового градиента
     rule = ConditionalFormatRule(
